@@ -42,8 +42,8 @@ nav.bar{display:none}@media(max-width:760px){nav.bar{display:flex}}
 #intro.out{transform:translateY(-100%)}
 #intro h1{font-size:clamp(34px,9vw,120px);display:flex;gap:.3em;flex-wrap:wrap;justify-content:center;line-height:1.05}
 #intro .w{display:flex;overflow:hidden;padding-bottom:.12em}
-#intro span{display:inline-block;transform:translateY(115%);animation:up .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--n)*55ms + .15s)}
-#intro p{color:#DBE028;font:600 13px 'Outfit';letter-spacing:.3em;text-transform:uppercase;opacity:0;animation:fd .6s 1.1s forwards}
+#intro span{display:inline-block;transform:translateY(115%)}#intro.go span{animation:up .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--n)*55ms + .15s)}
+#intro p{color:#DBE028;font:600 13px 'Outfit';letter-spacing:.3em;text-transform:uppercase;opacity:0}#intro.go p{animation:fd .6s 1.1s forwards}
 @keyframes up{to{transform:none}}@keyframes fd{to{opacity:1}}
 .strip{padding-top:8px}.th{transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.2,1)}.th.on{transform:scale(1.2)}.th:hover{opacity:1;transform:translateY(-3px)}
 .th.in{animation:pop .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k)*80ms + var(--b,0s))}
@@ -65,7 +65,8 @@ nav.bar{display:none}@media(max-width:760px){nav.bar{display:flex}}
 .track{position:relative;flex:none;width:max-content}
 .track:not(.ready),.track.drag{transition:none}
 .snd{position:absolute;right:20px;bottom:16px;z-index:3;display:none;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font:600 11px 'Outfit';letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;border-radius:99px;cursor:pointer}.sl .two video{height:100%;width:auto;max-width:min(34vw,480px);border-radius:10px;object-fit:contain;box-shadow:0 10px 40px rgba(14,40,127,.22)}@media(max-width:760px){nav.bar{position:static;transform:none;margin:6px auto 12px;box-shadow:none;padding:0;flex:none}}@supports(height:100dvh){html,body{height:100dvh}}.snd:hover{background:var(--o);border-color:var(--o);color:#fff}
-@media(prefers-reduced-motion:reduce){#intro{display:none}*{animation:none!important;transition:none!important}}
+#intro p{text-align:center;padding:0 28px;line-height:1.7}@media(max-width:760px){#intro h1{font-size:10vw;padding:0 16px}#intro p{font-size:11px;letter-spacing:.2em}}
+@media(prefers-reduced-motion:reduce){#intro span{transform:none}#intro p{opacity:1}*{animation:none!important;transition:none!important}}
 </style></head><body><div id="intro"><h1 class="t" id="iname"></h1><p>Art Director · Animation Filmmaker</p></div><div id="app">
 <header><button class="pill on" data-v="work">Work</button><button class="pill" data-v="info">Info</button><span class="name t">Francesco Aber · Art Director</span></header>
 <div class="chips" id="chips"></div><div class="strip" id="strip"></div>
@@ -106,6 +107,6 @@ $('#mail').onclick=()=>{const m='aber.francesco@gmail.com';(navigator.clipboard?
 addEventListener('keydown',e=>{if(e.key=='ArrowRight')go(1);if(e.key=='ArrowLeft')go(-1)});
 addEventListener('hashchange',()=>view(location.hash=='#info'?'info':'work'));
 let sx=null,sw=false;const S=$('#stage');S.ondragstart=e=>e.preventDefault();S.onpointerdown=e=>{if(e.target.closest('.arr'))return;sx=e.clientX;moved=false};S.onpointermove=e=>{if(sx==null)return;const dx=e.clientX-sx;if(!moved&&Math.abs(dx)>6){moved=true;S.classList.add('drag');$('#track').classList.add('drag');try{S.setPointerCapture(e.pointerId)}catch(_){}}if(moved)$('#track').style.transform=`translateX(${curX+dx}px)`};S.onpointerup=S.onpointercancel=e=>{if(sx==null)return;const dx=e.clientX-sx;sx=null;S.classList.remove('drag');$('#track').classList.remove('drag');if(moved){sw=true;setTimeout(()=>sw=false,300);if(Math.abs(dx)>Math.min(90,S.clientWidth*.12))go(dx<0?1:-1);else place()}};$('#strip').addEventListener('wheel',e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX))$('#strip').scrollLeft+=e.deltaY},{passive:true});S.onclick=e=>{if(sw||e.target.closest('.arr'))return;const q=e.target.closest('.sl');const k=q?+q.dataset.s:i;if(k!=i){dir=k>i?1:-1;i=k;show()}else go(1)};let wt=0;S.addEventListener('wheel',e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;if(Math.abs(d)<12||Date.now()-wt<700)return;wt=Date.now();go(d>0?1:-1)},{passive:true});addEventListener('resize',place);
-(()=>{const h=$('#iname');let n=0;h.innerHTML='Francesco Aber'.split(' ').map(w=>'<div class="w">'+[...w].map(c=>`<span style="--n:${n++}">${c}</span>`).join('')+'</div>').join('');const it=$('#intro');setTimeout(()=>it.classList.add('out'),2000);setTimeout(()=>it.remove(),3000)})();
+(()=>{const h=$('#iname');let n=0;h.innerHTML='Francesco Aber'.split(' ').map(w=>'<div class="w">'+[...w].map(c=>`<span style="--n:${n++}">${c}</span>`).join('')+'</div>').join('');const it=$('#intro');requestAnimationFrame(()=>requestAnimationFrame(()=>{it.classList.add('go');setTimeout(()=>it.classList.add('out'),2200);setTimeout(()=>it.remove(),3300)}))})();
 new ResizeObserver(()=>place()).observe($('#stage'));chips();show();view(location.hash=='#info'?'info':'work');
 </script></body></html>
