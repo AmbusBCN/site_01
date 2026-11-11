@@ -19,10 +19,6 @@ if(!reduce){
   tl.to(el,{scale:mobile?4:4.5,x:d('x'),y:d('y'),ease:'power2.in',duration:1},0).to(el,{opacity:0,duration:.25},.75);
  });
  tl.to('.hero-c',{opacity:0,scale:.92,duration:.35},0);
-}else{
- // reduced motion: gentle fades only (no zoom, no float)
- gsap.from('.fl',{opacity:0,duration:1.1,stagger:.12,ease:'power1.out'});gsap.from('.hero-c',{opacity:0,duration:1.2});
- gsap.timeline({scrollTrigger:{trigger:'.hero',start:'top top',end:'+=90%',scrub:.6,pin:true}}).to('.fl',{opacity:0,duration:1},0).to('.hero-c',{opacity:0,duration:.6},0);
 }
 // play videos only when visible; if autoplay is blocked (iOS Low Power Mode) show a slow drift on the poster and retry on first touch
 const vis=new WeakSet(),go=v=>v.play().then(()=>v.classList.remove('still')).catch(()=>v.classList.add('still'));
