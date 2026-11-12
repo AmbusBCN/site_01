@@ -69,3 +69,8 @@ footer div{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;fo
 video::-webkit-media-controls,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
 video.still{animation:kb 9s ease-in-out infinite alternate}@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
 @media(prefers-reduced-motion:reduce){video.still{animation:none}}
+
+/* hero clips: soft fade-in (cover layer fades out, independent of video/GSAP transforms) */
+.fl::after{content:"";position:absolute;inset:0;background:var(--k);pointer-events:none;animation:flCover 1.4s ease-out both}
+@keyframes flCover{from{opacity:1}to{opacity:0}}
+.fl:nth-child(1)::after{animation-delay:.1s}.fl:nth-child(2)::after{animation-delay:.25s}.fl:nth-child(3)::after{animation-delay:.4s}.fl:nth-child(4)::after{animation-delay:.55s}.fl:nth-child(5)::after{animation-delay:.7s}.fl:nth-child(6)::after{animation-delay:.85s}.fl:nth-child(7)::after{animation-delay:1s}
